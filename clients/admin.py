@@ -7,7 +7,7 @@ admin.register(Stock, 'stock')
 
 @admin.register(Stock)
 class StockAdmin(admin.ModelAdmin):
-    list_display = ('code', 'name', 'price', 'quantity', 'order_status')
+    list_display = ('code', 'name', 'price', 'quantity', 'client_id', 'order_status')
     search_fields = ('code', 'name')
     list_filter = ('order_status',)
     ordering = ('-price',)

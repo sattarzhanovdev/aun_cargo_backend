@@ -6,7 +6,7 @@ from .models import (
 class StockShortSerializer(serializers.ModelSerializer):
     class Meta:
         model = Stock
-        fields = ['id', 'code', 'name', 'price', 'order_status']
+        fields = '__all__'
 
 
 class TransactionSerializer(serializers.ModelSerializer):

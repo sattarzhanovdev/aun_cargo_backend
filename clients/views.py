@@ -29,7 +29,7 @@ class StockSummaryViewSet(viewsets.ModelViewSet):
 
         if isinstance(data, list):
             serializer = self.get_serializer(data=data, many=True)
-            serializer.is_valid(raise_exception=True)
+            serializer.is_valid(raise_exception=True)   
             self.perform_bulk_create(serializer.validated_data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
 

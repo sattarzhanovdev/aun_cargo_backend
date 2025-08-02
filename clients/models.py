@@ -11,19 +11,21 @@ from django.core.exceptions import ValidationError
 
 
 class Stock(models.Model):
-    id = models.CharField(max_length=100, unique=True, primary_key=True)
     code = models.CharField(max_length=100, unique=True)
     name = models.CharField(max_length=255)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    client_id = models.CharField(max_length=255)
     quantity = models.FloatField(default=0)
     
     ORDER_STATUSES = [
+        ('На складе Китая', 'На складе Китая'),
+        ('В пути', 'В пути'),
         ('Приехал', 'Приехал'),
         ('На складе', 'На складе'),
         ('Передан', 'Передан')
     ]
     order_status = models.CharField(
-        max_length=20, choices=ORDER_STATUSES, default='in_stock'
+        max_length=20, choices=ORDER_STATUSES, default='На складе Китая'
     )
     
     def __str__(self):
