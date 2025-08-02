@@ -4,10 +4,14 @@ from .models import (
 )
 
 class StockShortSerializer(serializers.ModelSerializer):
+    price = serializers.SerializerMethodField()
+
     class Meta:
         model = Stock
-        fields = '__all__'
+        fields = ['id', 'code', 'client_id', 'weight', 'price', 'order_status']
 
+    def get_price(self, obj):
+        return obj.price  # ← это вызовет @property price
 
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:

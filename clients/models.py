@@ -12,24 +12,25 @@ from django.core.exceptions import ValidationError
 
 class Stock(models.Model):
     code = models.CharField(max_length=100, unique=True)
-    name = models.CharField(max_length=255)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
     client_id = models.CharField(max_length=255)
-    quantity = models.FloatField(default=0)
-    
+    weight = models.FloatField(default=0)
+
     ORDER_STATUSES = [
-        ('На складе Китая', 'На складе Китая'),
+        ('Заказ принят', 'Заказ принят'),
         ('В пути', 'В пути'),
-        ('Приехал', 'Приехал'),
-        ('На складе', 'На складе'),
-        ('Передан', 'Передан')
+        ('В Кыргызстане', 'В Кыргызстане'),
+        ('Товар получен', 'Товар получен')
     ]
     order_status = models.CharField(
-        max_length=20, choices=ORDER_STATUSES, default='На складе Китая'
+        max_length=20, choices=ORDER_STATUSES, default='Заказ принят'
     )
-    
+
     def __str__(self):
-        return f"{self.code} - {self.name}"
+        return f"{self.code}"
+
+    @property
+    def price(self):
+        return round(self.weight * 2.6 * 90, 2)  # 2 знака после запятой
 
 
 class Transaction(models.Model):

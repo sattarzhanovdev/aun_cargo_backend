@@ -14,7 +14,6 @@ from .serializers import (
 )
 
 
-
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
@@ -26,10 +25,9 @@ class StockSummaryViewSet(viewsets.ModelViewSet):
     • POST — один или несколько
     • PUT  — обновление одного или нескольких
     """
-    queryset = Stock.objects.all().order_by('name')
+    queryset = Stock.objects.all().order_by('code')
     serializer_class = StockShortSerializer
 
-    # ------- POST -------
     def create(self, request, *args, **kwargs):
         data = request.data
         if isinstance(data, list):
@@ -40,10 +38,10 @@ class StockSummaryViewSet(viewsets.ModelViewSet):
         return super().create(request, *args, **kwargs)
 
     def perform_bulk_create(self, validated_data_list):
-        objs = [Stock(**data) for data in validated_data_list]
+        # Убираем 'price' из validated_data, если он там есть
+        objs = [Stock(**{k: v for k, v in data.items() if k != 'price'}) for data in validated_data_list]
         Stock.objects.bulk_create(objs)
 
-    # ------- PUT -------
     def update(self, request, *args, **kwargs):
         data = request.data
         if isinstance(data, list):
@@ -60,12 +58,11 @@ class StockSummaryViewSet(viewsets.ModelViewSet):
             return Response(updated_items, status=status.HTTP_200_OK)
         return super().update(request, *args, **kwargs)
 
-    # ------- GET by-code/<code> -------
     @action(detail=False, methods=['get'], url_path='by-code/(?P<code>[^/.]+)')
     def by_code(self, request, code=None):
         instance = get_object_or_404(Stock, code=code)
         serializer = self.get_serializer(instance)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.data)
     
     
 class TransactionViewSet(viewsets.ModelViewSet):
