@@ -9,9 +9,9 @@ PICKUP_CHOICES = [
 ]
 
 PREFIX_MAP = {
-    'Кара-Балта': 'AKB',
-    'Сокулук': 'AUN',
-    'Беловодское': 'AB',
+  'Кара-Балта': 'AKB',
+  'Сокулук': 'ASK',
+  'Беловодское': 'AUN',
 }
 
 class User(models.Model):
