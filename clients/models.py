@@ -23,7 +23,7 @@ class Stock(models.Model):
         ('Товар передан клиенту', 'Товар передан клиенту')
     ]
     order_status = models.CharField(
-        max_length=20, choices=ORDER_STATUSES, default='Заказ принят'
+        max_length=255, choices=ORDER_STATUSES, default='Заказ принят'
     )
     
     PAYMENT_STATUSES = [
@@ -32,7 +32,7 @@ class Stock(models.Model):
         ('Оплачен картой', 'Оплачен картой')
     ]
     payment_status = models.CharField(
-        max_length=20, choices=PAYMENT_STATUSES, default='Не оплачен'
+        max_length=255, choices=PAYMENT_STATUSES, default='Не оплачен'
     )
 
     def __str__(self):
