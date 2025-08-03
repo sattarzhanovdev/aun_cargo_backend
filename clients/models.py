@@ -13,6 +13,7 @@ from django.core.exceptions import ValidationError
 class Stock(models.Model):
     code = models.CharField(max_length=100, unique=True)
     client_id = models.CharField(max_length=255)
+    payment_status = models.CharField(max_length=255)
     weight = models.FloatField(default=0)
 
     ORDER_STATUSES = [
@@ -23,6 +24,15 @@ class Stock(models.Model):
     ]
     order_status = models.CharField(
         max_length=20, choices=ORDER_STATUSES, default='Заказ принят'
+    )
+    
+    PAYMENT_STATUSES = [
+        ('Не оплачен', 'Не оплачен'),
+        ('Наличными', 'Наличными'),
+        ('Оплачен картой', 'Оплачен картой')
+    ]
+    payment_status = models.CharField(
+        max_length=20, choices=PAYMENT_STATUSES, default='Не оплачен'
     )
 
     def __str__(self):

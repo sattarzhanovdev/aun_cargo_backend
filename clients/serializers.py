@@ -8,7 +8,7 @@ class StockShortSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Stock
-        fields = ['id', 'code', 'client_id', 'weight', 'price', 'order_status']
+        fields = ['id', 'code', 'client_id', 'weight', 'price', 'order_status', 'payment_status']
 
     def get_price(self, obj):
         return obj.price  # ← это вызовет @property price
