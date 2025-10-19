@@ -7,7 +7,7 @@ from django.db import models, transaction
 from django.db.models import F
 from django.utils.timezone import now
 from django.core.exceptions import ValidationError
-
+from django.utils import timezone
 
 
 class Stock(models.Model):
@@ -25,7 +25,7 @@ class Stock(models.Model):
     order_status = models.CharField(
         max_length=255, choices=ORDER_STATUSES, default='Заказ принят'
     )
-    
+
     PAYMENT_STATUSES = [
         ('Не оплачен', 'Не оплачен'),
         ('Наличными', 'Наличными'),
@@ -35,12 +35,19 @@ class Stock(models.Model):
         max_length=255, choices=PAYMENT_STATUSES, default='Не оплачен'
     )
 
+    # ✅ Добавь эти два поля:
+
+    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
+
+
     def __str__(self):
         return f"{self.code}"
 
     @property
     def price(self):
-        return round(self.weight * 2.6 * 90, 2)  # 2 знака после запятой
+        return round(self.weight * 2.6 * 90, 2)
+
 
 
 class Transaction(models.Model):
