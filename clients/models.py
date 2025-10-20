@@ -37,7 +37,7 @@ class Stock(models.Model):
 
     # ✅ Добавь эти два поля:
 
-    created_at = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    created_at = models.DateTimeField(default=timezone.now, null=True, blank=True)
     updated_at = models.DateTimeField(auto_now=True, null=True, blank=True)
 
 
